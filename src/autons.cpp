@@ -163,7 +163,7 @@ void red_goal_rush() {
 void blue_goal_rush() {
     left_motors.set_brake_mode(MotorBrake::hold);
     right_motors.set_brake_mode(MotorBrake::hold);
-    chassis.setPose(51.5, -60, 270);
+    chassis.setPose(51.5, -60, 90);
 
     ///goal rush
     chassis.moveToPoint(14, -60, 900, {.minSpeed = 80});
