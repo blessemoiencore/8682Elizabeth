@@ -17,13 +17,13 @@ using namespace pros;
 
 
 //motor groups
-MotorGroup left_motors({-3,-2,10,}, MotorGearset::blue);
-MotorGroup right_motors({13,-12,19}, MotorGearset::blue);
+MotorGroup left_motors({-7,-8,9,}, MotorGearset::blue);
+MotorGroup right_motors({3,5,-4}, MotorGearset::blue);
 
 //drivetrain configuration
 lemlib::Drivetrain drivetrain(&left_motors,
                       &right_motors,
-                      12.25,
+                      10.75,
                       lemlib::Omniwheel::NEW_325,
                       450,
                       8 // mess with this
@@ -31,14 +31,13 @@ lemlib::Drivetrain drivetrain(&left_motors,
 
 //sensors
 Imu imu1(5);//port
-Rotation lb_rotation(1); 
 Distance dist1(2); //port
 
 //tracking wheel configuration
 //Rotation horizontal_rotation(1);
-Rotation vertical_rotation(4);
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_rotation, lemlib::Omniwheel::NEW_275,   .75); //change 0.85
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
+//Rotation vertical_rotation(4);
+//lemlib::TrackingWheel vertical_tracking_wheel(&vertical_rotation, lemlib::Omniwheel::NEW_275,   .75); //change 0.85
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             nullptr, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -83,14 +82,14 @@ lemlib::Chassis chassis(drivetrain,
 
 
 //pneumatics
-adi::Pneumatics grab('A', false);
-adi::Pneumatics intakeLift('H',false);
-adi::Pneumatics doinker('G', false);
+adi::Pneumatics descore('A', false);
+adi::Pneumatics tongue('B', false);
+
 
 //motors
-Motor intake(16, MotorGears::green);
-Motor conveyor(20, MotorGears::blue);
-Motor lift(11,MotorGears::green);
+Motor intake(14, MotorGears::blue);
+Motor hood(6, MotorGears::blue);
+
 
 //lady brown code
 /*

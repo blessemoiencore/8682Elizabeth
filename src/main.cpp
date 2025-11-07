@@ -18,6 +18,7 @@
 Controller remote(pros::E_CONTROLLER_MASTER);
 bool auto_started = false;
 
+/** 
 void lift_control(float angle) {
     double tolerance = 0;
     while ((fabs(angle - lb_rotation.get_position()) > tolerance)) {
@@ -32,6 +33,7 @@ void lift_control(float angle) {
     lift.brake();
     pros::delay(10);
 }
+*/
 
 /**
  * A callback function for LLEMU's center button.
@@ -61,11 +63,10 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "8682N");
 	chassis.calibrate();
-	//lady brown task
 	
 	 pros::Task odom_task([]{
 		while (true) {
-		 pros::lcd::print(2, "vertical sensor: %f", ((vertical_rotation.get_position() * 3.14159265  * 2.75)) / 36000 );
+		 //pros::lcd::print(2, "vertical sensor: %f", ((vertical_rotation.get_position() * 3.14159265  * 2.75)) / 36000 );
 		 pros::delay(10);
 		}
 
@@ -74,7 +75,6 @@ void initialize() {
 
 	pros::lcd::register_btn1_cb(on_center_button);
 
-	
 
 }
 
@@ -109,7 +109,6 @@ void competition_initialize() {}
  */
 void autonomous() {
 auto_started = true;
-blue_goal_rush();
 }
 
 /**
@@ -133,34 +132,34 @@ void opcontrol() {
 
 			pros::lcd::print(3, "angular: %f", imu1.get_heading());
 
-			pros::lcd::print(4, "pid gains: %i", vertical_rotation.get_position()); // what will this do??? 
-
 		
-		if(remote.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			doinker.toggle();
-		}
-
 		if(remote.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			grab.toggle();
+			descore.toggle();
 		}
-
 		if(remote.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			intakeLift.toggle();
+			tongue.toggle();
 		}
 
-		if (remote.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			//lift.move_absolute(-1250, 170); //scoring pose
-			lift.move_absolute(-230, 170);
-		}
-	
 		if(remote.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			intake.move(127);
-			conveyor.move(127);
+
+		}
+		else if (remote.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			intake.move(-127);
 		}
 		else {
 			intake.brake();
-			conveyor.brake();
 					}
+
+		if(remote.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			hood.move(127);
+		}
+		else if(remote.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+			hood.move(-127);
+		}
+		else {
+			hood.brake();
+		}
 
 		//arcade
 		int dir = remote.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
